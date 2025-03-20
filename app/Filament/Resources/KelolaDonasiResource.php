@@ -21,27 +21,46 @@ class KelolaDonasiResource extends Resource
 {
     protected static ?string $model = KelolaDonasi::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
+
+    protected static ?string $pluralLabel = 'Kelola Donasi';
+    protected static ?string $navigationLabel = 'Kelola Donasi';
+
+    public static function getModelLabel(): string
+    {
+        return 'Donasi';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Kelola Donasi';
+    }
 
     public static function form(Forms\Form $form): Forms\Form
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('gambar')
-                    ->image() // Hanya menerima gambar
-                    ->directory('donasi')
-                    ->required(),
-
                 Forms\Components\TextInput::make('nama')
+                    ->label('Nama Donasi')
                     ->required()
-                    ->maxLength(255),
+                    ->columnSpanFull(), // Membuat label satu baris di atas input
+
+                Forms\Components\FileUpload::make('gambar')
+                    ->label('Images')
+                    ->required()
+                    ->image()
+                    ->columnSpanFull(),
 
                 Forms\Components\Textarea::make('deskripsi')
-                    ->required(),
+                    ->label('Deskripsi')
+                    ->required()
+                    ->columnSpanFull(),
 
                 Forms\Components\TextInput::make('target_terkumpul')
+                    ->label('Target Terkumpul')
+                    ->required()
                     ->numeric()
-                    ->required(),
+                    ->columnSpanFull(),
             ]);
     }
 

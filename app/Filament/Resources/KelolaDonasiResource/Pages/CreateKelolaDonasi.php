@@ -9,4 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateKelolaDonasi extends CreateRecord
 {
     protected static string $resource = KelolaDonasiResource::class;
+    public function getTitle(): string
+{
+    return 'Tambah Donasi Baru';
+}
 }
