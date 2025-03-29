@@ -19,6 +19,15 @@ class UangDonasiResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    protected static ?string $pluralLabel = 'Uang Donasi';
+    protected static ?string $navigationLabel = 'Uang Donasi';
+
+    public static function getModelLabel(): string
+    {
+        return 'Uang Donasi';
+    }
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -56,7 +65,7 @@ class UangDonasiResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUangDonasis::route('/'),
+            'index' => Pages\ListUangDonasi::route('/'),
             'create' => Pages\CreateUangDonasi::route('/create'),
             'edit' => Pages\EditUangDonasi::route('/{record}/edit'),
         ];

@@ -6,7 +6,7 @@ use App\Filament\Resources\UangDonasiResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListUangDonasis extends ListRecords
+class ListUangDonasi extends ListRecords
 {
     protected static string $resource = UangDonasiResource::class;
 

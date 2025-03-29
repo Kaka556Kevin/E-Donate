@@ -25,7 +25,7 @@ class KelolaDonasi extends Model
 
         static::deleting(function ($donasi) {
             if ($donasi->gambar) {
-                Storage::disk('public')->delete($donasi->gambar); // Hapus gambar dari storage
+                Storage::disk('public')->delete($donasi->gambar);
             }
         });
     }
