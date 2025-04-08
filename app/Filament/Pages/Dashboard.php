@@ -28,11 +28,10 @@ class Dashboard extends Page implements Tables\Contracts\HasTable
         return $table
             ->query(KelolaDonasi::query())
             ->columns([
-                ImageColumn::make('gambar')
-                    ->label('Gambar')
-                    ->disk('public')
-                    ->size(80)
-                    ->url(fn($record) => asset('storage/' . $record->gambar)),
+                TextColumn::make('created_at')
+                    ->label('Tanggal Donasi')
+                    ->date('M d Y')
+                    ->sortable(),
                 TextColumn::make('nama')
                     ->label('Nama')
                     ->sortable()

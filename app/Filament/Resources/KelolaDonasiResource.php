@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
@@ -11,6 +12,7 @@ use App\Models\KelolaDonasi;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TextInput\Mask;
 use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -43,7 +45,7 @@ class KelolaDonasiResource extends Resource
                 Forms\Components\TextInput::make('nama')
                     ->label('Nama Donasi')
                     ->required()
-                    ->columnSpanFull(), // Membuat label satu baris di atas input
+                    ->columnSpanFull(),
 
                 Forms\Components\FileUpload::make('gambar')
                     ->label('Images')
@@ -56,10 +58,12 @@ class KelolaDonasiResource extends Resource
                     ->required()
                     ->columnSpanFull(),
 
-                Forms\Components\TextInput::make('target_terkumpul_formatted')
+                Forms\Components\TextInput::make('target_terkumpul')
                     ->label('Target Terkumpul')
                     ->required()
                     ->numeric()
+                    ->extraAttributes(['id' => 'target-terkumpul'])
+                    ->prefix('Rp.')
                     ->columnSpanFull(),
             ]);
     }

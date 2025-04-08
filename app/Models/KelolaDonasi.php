@@ -28,7 +28,17 @@ class KelolaDonasi extends Model
                 Storage::disk('public')->delete($donasi->gambar);
             }
         });
+
+        static::updating(function ($donasi) {
+            if ($donasi->isDirty('gambar')) {
+                $originalGambar = $donasi->getOriginal('gambar');
+                if ($originalGambar) {
+                    Storage::disk('public')->delete($originalGambar);
+                }
+            }
+        });
     }
+    
     /**
      * Format target_terkumpul ke Rupiah
      */

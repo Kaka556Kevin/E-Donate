@@ -56,4 +56,6 @@ class AdministratorPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
+
+    
 }
