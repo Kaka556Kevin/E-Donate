@@ -25,6 +25,11 @@ html, body {
     color: white;
 }
 
+.navbar a:hover,
+.navbar .nav-link:hover {
+    color: white;
+    text-decoration: none;
+}
 
 /* ============ MAIN SECTION ============ */
 .main-section {
