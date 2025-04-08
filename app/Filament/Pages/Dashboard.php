@@ -34,11 +34,11 @@ class Dashboard extends Page implements Tables\Contracts\HasTable
                     ->size(80)
                     ->url(fn($record) => asset('storage/' . $record->gambar)),
                 TextColumn::make('nama')
-                    ->label('ID')
+                    ->label('Nama')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('deskripsi')
-                    ->label('Nama')
+                    ->label('Deskripsi')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('target_terkumpul_formatted')

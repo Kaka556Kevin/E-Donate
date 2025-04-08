@@ -56,7 +56,7 @@ class KelolaDonasiResource extends Resource
                     ->required()
                     ->columnSpanFull(),
 
-                Forms\Components\TextInput::make('target_terkumpul')
+                Forms\Components\TextInput::make('target_terkumpul_formatted')
                     ->label('Target Terkumpul')
                     ->required()
                     ->numeric()
@@ -74,7 +74,7 @@ class KelolaDonasiResource extends Resource
                     ->url(fn($record) => asset('storage/' . $record->gambar)),
                 TextColumn::make('nama'),
                 TextColumn::make('deskripsi'),
-                TextColumn::make('target_terkumpul'),
+                TextColumn::make('target_terkumpul_formatted'),
             ])
             ->filters([
                 //
