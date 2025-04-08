@@ -41,7 +41,7 @@ class Dashboard extends Page implements Tables\Contracts\HasTable
                     ->label('Nama')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('target_terkumpul')
+                TextColumn::make('target_terkumpul_formatted')
                     ->label('Jumlah Donasi')
                     ->sortable()
                     ->searchable(),
