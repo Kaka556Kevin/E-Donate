@@ -62,7 +62,7 @@ class KelolaDonasiResource extends Resource
                     ->label('Target Terkumpul')
                     ->required()
                     ->numeric()
-                    ->extraAttributes(['id' => 'target-terkumpul'])
+                    // ->extraAttributes(['id' => 'target-terkumpul'])
                     ->prefix('Rp.')
                     ->columnSpanFull(),
             ]);

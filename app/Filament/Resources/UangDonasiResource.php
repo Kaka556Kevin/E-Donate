@@ -22,9 +22,15 @@ class UangDonasiResource extends Resource
     protected static ?string $pluralLabel = 'Uang Donasi';
     protected static ?string $navigationLabel = 'Uang Donasi';
 
+    
+    public static function getPluralModelLabel(): string
+    {
+        return 'Catatan Keuangan';
+    }
+
     public static function getModelLabel(): string
     {
-        return 'Uang Donasi';
+        return 'Catatan';
     }
 
 
@@ -32,7 +38,33 @@ class UangDonasiResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('nama_donasi')
+                    ->label('Nama Donasi')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+
+                Forms\Components\TextInput::make('uang_masuk')
+                    ->label('Uang Masuk')
+                    ->numeric()
+                    ->prefix('Rp')
+                    ->required()
+                    ->columnSpanFull(),
+
+                Forms\Components\TextInput::make('uang_keluar')
+                    ->label('Uang Keluar')
+                    ->numeric()
+                    ->prefix('Rp')
+                    ->required()
+                    ->columnSpanFull(),
+
+                Forms\Components\TextInput::make('saldo')
+                    ->label('Sisa Saldo')
+                    ->numeric()
+                    ->prefix('Rp')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -40,13 +72,29 @@ class UangDonasiResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('nama_donasi')
+                    ->label('Nama Donasi')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('uang_masuk_formatted')
+                    ->label('Uang Masuk')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('uang_keluar_formatted')
+                    ->label('Uang Keluar')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('saldo_formatted')
+                    ->label('Sisa Saldo')
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('uang_donasis', function (Blueprint $table) {
-            $table->id();
+        Schema::create('uang_donasi', function (Blueprint $table) {
+            $table->id(); // Kolom id dengan auto_increment dan primary key
+            $table->string('nama_donasi')->nullable();
+            $table->bigInteger('uang_masuk')->default(0);
+            $table->bigInteger('uang_keluar')->default(0);
+            $table->bigInteger('saldo')->default(0);
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('uang_donasis');
+        Schema::dropIfExists('uang_donasi');
     }
 };
