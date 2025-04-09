@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UangDonasiResource\Pages;
-use App\Filament\Resources\UangDonasiResource\RelationManagers;
-use App\Models\UangDonasi;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\UangDonasi;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use App\Exports\UangDonasiExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\UangDonasiResource\Pages;
+use App\Filament\Resources\UangDonasiResource\RelationManagers;
 
 class UangDonasiResource extends Resource
 {
@@ -22,7 +24,7 @@ class UangDonasiResource extends Resource
     protected static ?string $pluralLabel = 'Uang Donasi';
     protected static ?string $navigationLabel = 'Uang Donasi';
 
-    
+
     public static function getPluralModelLabel(): string
     {
         return 'Catatan Keuangan';
@@ -100,6 +102,19 @@ class UangDonasiResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('export')
+                    ->label('Export to Excel')
+                    ->icon('heroicon-o-folder-arrow-down')
+                    ->color('success')
+                    ->extraAttributes(['style' => 'float: center; margin-right: 10px;'])
+                    ->action(function () {
+                        return response()->download(
+                            Excel::download(new UangDonasiExport, 'uang_donasi.xlsx')->getFile(),
+                            'uang_donasi.xlsx'
+                        );
+                    }),
             ]);
     }
 
