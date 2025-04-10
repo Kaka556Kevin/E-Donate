@@ -46,4 +46,10 @@ class KelolaDonasi extends Model
     {
         return 'Rp ' . number_format($this->target_terkumpul, 0, ',', '.');
     }
+
+    public function uangDonasi()
+    {
+        return $this->hasOne(UangDonasi::class, 'nama_donasi', 'nama');
+    }
+
 }

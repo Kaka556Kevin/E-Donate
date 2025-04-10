@@ -13,6 +13,7 @@ html, body {
     overflow: hidden;
 }
 
+
 /* ============ NAVBAR ============ */
 .navbar {
     background: transparent;
@@ -100,6 +101,7 @@ html, body {
     justify-content: space-between;
 }
 
+
 /* Progress */
 .donation-progress {
     height: 5px;
@@ -114,9 +116,6 @@ html, body {
     border-radius: 5px;
 }
 
-#terkumpul {
-    color: black;
-}
 
 /* Button */
 .btn-donate {

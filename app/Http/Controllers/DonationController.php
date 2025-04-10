@@ -9,7 +9,7 @@ class DonationController extends Controller
 {
     public function index()
     {
-        $donations = KelolaDonasi::all();
+        $donations = KelolaDonasi::with('uangDonasi')->get();
         return view('home', compact('donations'));
     }
 }
