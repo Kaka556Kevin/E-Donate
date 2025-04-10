@@ -16,7 +16,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">E-DONATE</a>
+            <a class="navbar-brand disabled-link" href="#">E-<span>DONATE</span></a>
         </div>
     </nav>
 
