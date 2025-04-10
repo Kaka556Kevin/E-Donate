@@ -28,7 +28,7 @@ html, body {
 .disabled-link {
     pointer-events: none;
     cursor: default;
-    color: white; /* pastikan warnanya tetap putih */
+    color: white; 
     text-decoration: none;
 }
 
