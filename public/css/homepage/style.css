@@ -177,7 +177,7 @@ html, body {
     width: 100%;
     max-width: 350px;
     max-height: 500px;
-    min-height: 500px; /* Sesuaikan tinggi agar semua card sama */
+    min-height: 500px;
     background: white;
     border-radius: 16px;
     padding: 20px;
