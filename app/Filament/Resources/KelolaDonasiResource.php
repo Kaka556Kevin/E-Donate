@@ -78,7 +78,7 @@ class KelolaDonasiResource extends Resource
                     ->url(fn($record) => asset('storage/' . $record->gambar)),
                 TextColumn::make('nama'),
                 TextColumn::make('deskripsi'),
-                TextColumn::make('target_terkumpul_formatted'),
+                TextColumn::make('target_terkumpul_formatted')->label('Target Terkumpul'),
             ])
             ->filters([
                 //

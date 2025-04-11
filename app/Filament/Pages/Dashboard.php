@@ -33,7 +33,7 @@ class Dashboard extends Page implements Tables\Contracts\HasTable
                     ->date('M d Y')
                     ->sortable(),
                 TextColumn::make('nama')
-                    ->label('Nama')
+                    ->label('ID')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('deskripsi')
