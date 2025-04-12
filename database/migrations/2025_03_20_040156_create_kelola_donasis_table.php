@@ -17,15 +17,13 @@ return new class extends Migration
             $table->string('nama');
             $table->text('deskripsi');
             $table->bigInteger('target_terkumpul');
+            $table->bigInteger('donasi_terkumpul')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('kelola_donasis');
+        Schema::dropIfExists('kelola_donasi');
     }
 };

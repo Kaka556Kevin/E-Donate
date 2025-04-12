@@ -14,6 +14,12 @@ class UangDonasi extends Model
         'saldo',
     ];
 
+    //Relation to KelolaDonasi
+    // public function kelolaDonasi()
+    // {
+    //     return $this->belongsTo(KelolaDonasi::class);
+    // }
+
     // Mutator untuk menghitung saldo secara otomatis
     public function setSaldoAttribute()
     {

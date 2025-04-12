@@ -16,8 +16,15 @@ class KelolaDonasi extends Model
         'gambar',
         'nama',
         'deskripsi',
-        'target_terkumpul'
+        'target_terkumpul',
+        'donasi_terkumpul',
     ];
+
+    //Relation to UangDonasi
+    // public function uangDonasi()
+    // {
+    //     return $this->hasMany(UangDonasi::class);
+    // }
 
     protected static function boot()
     {
