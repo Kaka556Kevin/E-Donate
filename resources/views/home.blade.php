@@ -34,25 +34,27 @@
                                         <h5 class="fw-bold mt-2">{{ $donation->nama }}</h5>
                                         <p class="text-muted">{{ $donation->deskripsi }}</p>
 
-                                        <!-- Progress Bar -->
                                         @php
                                             $terkumpul = $donation->uangDonasi->saldo ?? 0;
                                             $target = $donation->target_terkumpul;
                                             $persen = $target > 0 ? ($terkumpul / $target) * 100 : 0;
                                         @endphp
+
                                         <div class="donation-progress">
                                             <div class="donation-progress-bar" style="width: {{ $persen }}%;"></div>
                                         </div>
 
-                                        <!-- Info Terkumpul & Target -->
                                         <p class="mt-2 text-dark fw-semibold">
                                             Terkumpul: Rp {{ number_format($terkumpul, 0, ',', '.') }}
-                                            <span class="float-end text-dark  fw-semibold">
+                                            <span class="float-end text-dark fw-semibold">
                                                 Target: {{ $donation->target_terkumpul_formatted }}
                                             </span>
                                         </p>
 
-                                        <a href="#" class="btn-donate">Donasi Sekarang</a>
+                                        <!-- Tombol Donasi -->
+                                        <button type="button" class="btn-donate" onclick="openPopup({{ $donation->id }})">
+                                            Donasi Sekarang
+                                        </button>                                        
                                     </div>
                                 </div>
                             </div>
@@ -71,4 +73,36 @@
         </div>
     </div>
 </div>
+
+<!-- Include Semua Pop-up Donasi -->
+@foreach ($donations as $donation)
+    @include('components.popup-donasi', ['donasi' => $donation])
+@endforeach
+@endsection
+
+@section('scripts')
+<script>
+    function openPopup(id) {
+        const popup = document.getElementById('popup-donasi-' + id);
+        if (popup) {
+            popup.style.display = 'flex';
+        }
+    }
+
+    function closePopup(id) {
+        const popup = document.getElementById('popup-donasi-' + id);
+        if (popup) {
+            popup.style.display = 'none';
+        }
+    }
+
+    // Tutup popup jika klik di luar
+    window.onclick = function(event) {
+        document.querySelectorAll('.popup-donasi').forEach(popup => {
+            if (event.target === popup) {
+                popup.style.display = 'none';
+            }
+        });
+    }
+</script>
 @endsection
