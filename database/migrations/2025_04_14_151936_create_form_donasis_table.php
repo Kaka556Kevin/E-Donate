@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('kelola_donasi_id');
             $table->string('nama');
             $table->string('nominal');
-            $table->string('whatsapp');
+            $table->string('kontak');
             $table->text('pesan')->nullable();
             $table->timestamps();
         
