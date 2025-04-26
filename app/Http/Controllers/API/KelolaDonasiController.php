@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use App\Http\Controllers\Controller;
 use App\Models\KelolaDonasi;
 use Illuminate\Http\Request;
@@ -17,20 +18,23 @@ class KelolaDonasiController extends Controller
     // Tambah data donasi baru
     public function store(Request $request)
     {
+        // Validasi data, termasuk file gambar sebagai required
         $validated = $request->validate([
             'nama' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'deskripsi' => 'required|string',
             'target_terkumpul' => 'required|numeric',
         ]);
 
         // Simpan gambar jika ada
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('public/donasi');
-            $validated['gambar'] = str_replace('public/', '', $path);
+            $path = $request->file('gambar')->store('', 'public');
+            $validated['gambar'] = $path;
         }
 
+        // Simpan data ke database
         $donation = KelolaDonasi::create($validated);
+
         return response()->json($donation, 201);
     }
 
@@ -44,23 +48,39 @@ class KelolaDonasiController extends Controller
     // Update data donasi berdasarkan ID
     public function update(Request $request, $id)
     {
+        // Validasi data, termasuk file gambar sebagai opsional
         $validated = $request->validate([
             'nama' => 'sometimes|required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'deskripsi' => 'sometimes|required|string',
             'target_terkumpul' => 'sometimes|required|numeric',
         ]);
 
+        // Ambil data donasi berdasarkan ID
         $donation = KelolaDonasi::findOrFail($id);
 
         // Update gambar jika ada
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('public/donasi');
-            $validated['gambar'] = str_replace('public/', '', $path);
+            // Hapus file gambar lama jika ada
+            if ($donation->gambar) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($donation->gambar);
+            }
+
+            // Simpan file gambar baru
+            $path = $request->file('gambar')->store('', 'public');
+            $validated['gambar'] = $path;
         }
 
-        $donation->update($validated);
-        return response()->json($donation);
+        // Update data di database
+        $updated = $donation->update($validated);
+
+        if ($updated) {
+            // Refresh model untuk mendapatkan data terbaru dari database
+            $donation->refresh();
+            return response()->json($donation);
+        } else {
+            return response()->json(['message' => 'Update failed'], 500);
+        }
     }
 
     // Hapus data donasi berdasarkan ID
