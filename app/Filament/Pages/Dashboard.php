@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\KelolaDonasi;
+use App\Models\FormDonasi;
 use Filament\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,22 +26,22 @@ class Dashboard extends Page implements Tables\Contracts\HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(KelolaDonasi::query())
+            ->query(FormDonasi::query())
             ->columns([
                 TextColumn::make('created_at')
                     ->label('Tanggal Donasi')
                     ->date('M d Y')
                     ->sortable(),
                 TextColumn::make('nama')
-                    ->label('ID')
+                    ->label('Nama')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('deskripsi')
-                    ->label('Deskripsi')
+                TextColumn::make('nominal')
+                    ->label('Nominal')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('target_terkumpul_formatted')
-                    ->label('Jumlah Donasi')
+                TextColumn::make('kontak')
+                    ->label('Kontak')
                     ->sortable()
                     ->searchable(),
             ]);
