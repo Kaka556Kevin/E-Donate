@@ -39,7 +39,8 @@ class Dashboard extends Page implements Tables\Contracts\HasTable
                 TextColumn::make('nominal')
                     ->label('Nominal')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.')),
                 TextColumn::make('kontak')
                     ->label('Kontak')
                     ->sortable()
