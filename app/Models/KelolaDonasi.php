@@ -20,22 +20,21 @@ class KelolaDonasi extends Model
         'donasi_terkumpul',
     ];
 
-    //Relation to UangDonasi
-    // public function uangDonasi()
-    // {
-    //     return $this->hasMany(UangDonasi::class);
-    // }
-
+    /**
+     * Boot method untuk menangani penghapusan dan update file gambar.
+     */
     protected static function boot()
     {
         parent::boot();
 
+        // Hapus gambar lama saat record dihapus
         static::deleting(function ($donasi) {
             if ($donasi->gambar) {
                 Storage::disk('public')->delete($donasi->gambar);
             }
         });
 
+        // Hapus gambar lama saat gambar di-update
         static::updating(function ($donasi) {
             if ($donasi->isDirty('gambar')) {
                 $originalGambar = $donasi->getOriginal('gambar');
@@ -45,18 +44,36 @@ class KelolaDonasi extends Model
             }
         });
     }
-    
+
     /**
-     * Format target_terkumpul ke Rupiah
+     * Relasi ke UangDonasi berdasarkan nama donasi.
+     */
+    public function uangDonasi()
+    {
+        return $this->hasOne(UangDonasi::class, 'nama_donasi', 'nama');
+    }
+
+    /**
+     * Relasi ke form donasi.
+     */
+    public function formDonasis()
+    {
+        return $this->hasMany(FormDonasi::class, 'kelola_donasi_id');
+    }
+
+    /**
+     * Format target_terkumpul ke format rupiah.
      */
     public function getTargetTerkumpulFormattedAttribute()
     {
         return 'Rp ' . number_format($this->target_terkumpul, 0, ',', '.');
     }
 
-    public function uangDonasi()
+    /**
+     * Format donasi_terkumpul ke format rupiah.
+     */
+    public function getDonasiTerkumpulFormattedAttribute()
     {
-        return $this->hasOne(UangDonasi::class, 'nama_donasi', 'nama');
+        return 'Rp ' . number_format($this->donasi_terkumpul, 0, ',', '.');
     }
-
 }

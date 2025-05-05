@@ -290,3 +290,12 @@ html, body {
     }
 }
 
+/* Navbar transparan hanya di layar besar */
+@media (max-width: 991.98px) {
+    .bg-lg-transparent {
+        background: linear-gradient(to right, #000000, #007f00); /* gradasi hijau seperti homepage */
+    }
+}
+
+
+

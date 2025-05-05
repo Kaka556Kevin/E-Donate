@@ -35,18 +35,20 @@
                                         <p class="text-muted">{{ $donation->deskripsi }}</p>
 
                                         @php
-                                            $terkumpul = $donation->uangDonasi->saldo ?? 0;
+                                            $terkumpul = $donation->donasi_terkumpul ?? 0;
                                             $target = $donation->target_terkumpul;
-                                            $persen = $target > 0 ? ($terkumpul / $target) * 100 : 0;
+                                            $persen = $target > 0 ? min(100, round(($terkumpul / $target) * 100)) : 0;
                                         @endphp
 
                                         <div class="donation-progress">
                                             <div class="donation-progress-bar" style="width: {{ $persen }}%;"></div>
                                         </div>
 
-                                        <p class="mt-2 text-dark fw-semibold">
-                                            Terkumpul: Rp {{ number_format($terkumpul, 0, ',', '.') }}
-                                            <span class="float-end text-dark fw-semibold">
+                                        <p class="mt-3 text-dark fw-semibold">
+                                            <span class="small">
+                                                Terkumpul: Rp {{ number_format($terkumpul, 0, ',', '.') }}
+                                            </span>
+                                            <span class="float-end text-dark fw-semibold small">
                                                 Target: {{ $donation->target_terkumpul_formatted }}
                                             </span>
                                         </p>
