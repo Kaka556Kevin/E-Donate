@@ -13,4 +13,4 @@ Route::delete('/donations/{id}', [KelolaDonasiController::class, 'destroy']);
 use App\Http\Controllers\MidtransCallbackController;
 
 Route::post('/midtrans/callback', [MidtransCallbackController::class, 'receive']);
-
+Route::post('/midtrans/update-status', [MidtransCallbackController::class, 'updateStatus']);
