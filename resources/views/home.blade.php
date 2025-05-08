@@ -17,6 +17,14 @@
                     tetapi harapan bagi mereka yang membutuhkan. 
                     Mari bersama-sama menciptakan perubahan nyata!
                 </p>
+
+                <!-- Tombol Bagikan -->
+                <button onclick="copyLink()" class="btn btn-warning mt-2">
+                    Bagikan Donasi Ini
+                </button>
+
+                <!-- Notifikasi -->
+                <small id="copyMessage" class="text-white d-none mt-1">Link berhasil disalin!</small>
             </div>
 
             <!-- Bagian Kanan: Carousel Donasi -->
@@ -107,4 +115,18 @@
         });
     }
 </script>
+
+<script>
+    function copyLink() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(function() {
+            const msg = document.getElementById('copyMessage');
+            msg.classList.remove('d-none');
+            setTimeout(() => {
+                msg.classList.add('d-none');
+            }, 2000); // Sembunyikan notifikasi setelah 2 detik
+        });
+    }
+</script>
+
 @endsection
