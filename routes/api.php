@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\FormDonasiController;
+use App\Http\Controllers\API\FormDonasiController;
 use App\Http\Controllers\API\KelolaDonasiController;
 use App\Http\Controllers\MidtransCallbackController;
 
