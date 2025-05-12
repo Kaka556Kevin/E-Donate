@@ -101,7 +101,7 @@ class UangDonasiResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ])->label('Delete All'),
             ])
             ->headerActions([
                 Tables\Actions\Action::make('export')
