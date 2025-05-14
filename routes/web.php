@@ -13,7 +13,7 @@ FacadesAuth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::post('/form-donasi', [FormDonasiController::class, 'store'])->name('form-donasi.store');
+Route::post('/form-donasi-submit', [FormDonasiController::class, 'store'])->name('form-donasi-submit');
 
 
 

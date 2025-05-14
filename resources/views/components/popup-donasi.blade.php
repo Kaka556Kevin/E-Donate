@@ -12,7 +12,7 @@
 
         <p class="popup-caption">Donasi Terbaik Anda</p>
 
-        <form action="{{ route('form-donasi.store') }}" method="POST">
+        <form action="{{ route('form-donasi-submit') }}" method="POST">
             @csrf
             <input type="hidden" name="kelola_donasi_id" value="{{ $donasi->id }}">
 
