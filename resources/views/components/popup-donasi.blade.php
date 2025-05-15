@@ -34,5 +34,20 @@
 
             <button type="submit" class="btn btn-success w-100">Donasi</button>
         </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const forms = document.querySelectorAll('form[action="{{ route('form-donasi-submit') }}"]');
+                
+                forms.forEach(form => {
+                    form.addEventListener('submit', function (e) {
+                        const nominal = form.querySelector('input[name="nominal"]').value;
+                        if (parseInt(nominal) < 1000) {
+                            e.preventDefault();
+                            alert('Minimal nominal donasi adalah Rp1.000');
+                        }
+                    });
+                });
+            });
+        </script>
     </div>
 </div>

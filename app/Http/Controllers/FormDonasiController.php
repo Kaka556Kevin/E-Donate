@@ -8,8 +8,19 @@ use Midtrans\Config;
 
 class FormDonasiController extends Controller
 {
-    public function store(Request $request)
+        public function store(Request $request)
     {
+        // Validasi terlebih dahulu
+        $request->validate([
+            'nominal' => 'required|integer|min:1000',
+            'nama' => 'required|string|max:255',
+            'kontak' => 'required|string|max:20',
+            'kelola_donasi_id' => 'required|exists:kelola_donasi,id'
+        ], [
+            'nominal.min' => 'Minimal nominal donasi adalah Rp1.000'
+        ]);
+
+        // Jika validasi lolos, lanjut ke Midtrans
         $params = [
             'transaction_details' => [
                 'order_id' => 'DONASI-' . time(),
@@ -19,15 +30,15 @@ class FormDonasiController extends Controller
                 'first_name' => $request->nama,
                 'phone' => $request->kontak,
             ],
-            // Tambahkan custom_field1 - custom_field3 seperti ini:
-            'custom_field1' => $request->kelola_donasi_id, // <-- PENTING! HARUS ADA
+            'custom_field1' => $request->kelola_donasi_id,
             'custom_field2' => $request->nama,
             'custom_field3' => json_encode([
                 'kontak' => $request->kontak,
                 'pesan' => $request->pesan,
                 'nominal' => $request->nominal
             ]),
-        ];          
+        ];
+
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
         \Midtrans\Config::$isProduction = config('midtrans.is_production');
         \Midtrans\Config::$isSanitized = true;
@@ -37,4 +48,5 @@ class FormDonasiController extends Controller
 
         return view('midtrans', compact('snapToken'));
     }
+
 }
