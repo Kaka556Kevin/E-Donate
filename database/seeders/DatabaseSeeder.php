@@ -24,8 +24,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-        UangDonasiSeeder::class,
-    ]);
-        
+            UangDonasiSeeder::class,
+        ]);
+        $this->call([
+            FormDonasiSeeder::class,
+        ]);
     }
 }
