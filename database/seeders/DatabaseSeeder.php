@@ -23,11 +23,11 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        $this->call([
-            UangDonasiSeeder::class,
-        ]);
-        $this->call([
-            FormDonasiSeeder::class,
-        ]);
+        // $this->call([
+        //     UangDonasiSeeder::class,
+        // ]);
+        // $this->call([
+        //     FormDonasiSeeder::class,
+        // ]);
     }
 }
