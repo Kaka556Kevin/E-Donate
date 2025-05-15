@@ -51,17 +51,17 @@ class FormDonasiSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'kelola_donasi_id' => 3,
+                'kelola_donasi_id' => 1,
                 'nama' => 'Rudi Hartono',
                 'nominal' => 200000,
-                'kontak' => '087654321098',
+                'kontak' => '087654121098',
                 'pesan' => 'Semoga semua amal diterima di sisi-Nya.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             // Tambahkan lebih banyak data dummy di sini...
             [
-                'kelola_donasi_id' => 3,
+                'kelola_donasi_id' => 2,
                 'nama' => 'Dewi Sartika',
                 'nominal' => 1500000,
                 'kontak' => '081111111111',
@@ -70,7 +70,7 @@ class FormDonasiSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'kelola_donasi_id' => 4,
+                'kelola_donasi_id' => 1,
                 'nama' => 'Andi Saputra',
                 'nominal' => 300000,
                 'kontak' => '082222222222',
@@ -79,7 +79,7 @@ class FormDonasiSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'kelola_donasi_id' => 4,
+                'kelola_donasi_id' => 2,
                 'nama' => 'Mira Lestari',
                 'nominal' => 900000,
                 'kontak' => '083333333333',
@@ -88,7 +88,7 @@ class FormDonasiSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'kelola_donasi_id' => 5,
+                'kelola_donasi_id' => 1,
                 'nama' => 'Faisal Rahman',
                 'nominal' => 400000,
                 'kontak' => '084444444444',
@@ -97,7 +97,7 @@ class FormDonasiSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'kelola_donasi_id' => 5,
+                'kelola_donasi_id' => 2,
                 'nama' => 'Nurul Fitri',
                 'nominal' => 600000,
                 'kontak' => '085555555555',
