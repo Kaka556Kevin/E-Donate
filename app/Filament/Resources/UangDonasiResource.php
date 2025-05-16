@@ -96,13 +96,13 @@ class UangDonasiResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('uang_masuk_formatted')
+                    ->label('Uang Masuk')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('nama_donasi')
                     ->label('Penerima Sumbangan')
                     ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('uang_masuk_formatted')
-                    ->label('Uang Masuk')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('uang_keluar_formatted')
