@@ -43,7 +43,7 @@ class UangDonasiResource extends Resource
             ->schema([
                 Select::make('kelola_donasi_id')
                     ->label('Program Donasi')
-                    ->relationship(name: 'kelolaDonasi', titleAttribute: 'nama')
+                    ->options(\App\Models\KelolaDonasi::pluck('nama', 'id'))
                     ->required()
                     ->searchable()
                     ->live()
