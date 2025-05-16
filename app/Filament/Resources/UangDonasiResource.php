@@ -47,7 +47,7 @@ class UangDonasiResource extends Resource
                     ->required()
                     ->searchable()
                     ->live()
-                    
+                    ->columnSpanFull()
                     ->afterStateUpdated(function (?string $state, callable $set) {
                         if ($state) {
                             $kelolaDonasi = \App\Models\KelolaDonasi::find($state);
