@@ -45,12 +45,10 @@ class KelolaDonasi extends Model
         });
     }
 
-    /**
-     * Relasi ke UangDonasi berdasarkan nama donasi.
-     */
-    public function uangDonasi()
+    // ✅ Ubah relasi ke UangDonasi
+    public function uangDonasis()
     {
-        return $this->hasOne(UangDonasi::class, 'nama_donasi', 'nama');
+        return $this->hasMany(UangDonasi::class, 'kelola_donasi_id');
     }
 
     /**

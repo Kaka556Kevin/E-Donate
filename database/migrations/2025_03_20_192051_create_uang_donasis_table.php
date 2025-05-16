@@ -17,15 +17,30 @@ return new class extends Migration
             $table->bigInteger('uang_masuk')->default(0);
             $table->bigInteger('uang_keluar')->default(0);
             $table->bigInteger('saldo')->default(0);
+
+            // Perbaikan: Hapus ->after('id')
+            $table->unsignedBigInteger('kelola_donasi_id')->nullable();
+
+            // Foreign key constraint
+            $table->foreign('kelola_donasi_id')
+                  ->references('id')
+                  ->on('kelola_donasi')
+                  ->onDelete('set null');
+
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::table('uang_donasi', function (Blueprint $table) {
             $table->dropForeign(['kelola_donasi_id']);
+            $table->dropColumn('kelola_donasi_id');
         });
+
         Schema::dropIfExists('uang_donasi');
     }
 };

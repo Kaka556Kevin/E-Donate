@@ -12,18 +12,22 @@ class UangDonasi extends Model
         'uang_masuk',
         'uang_keluar',
         'saldo',
+        'kelola_donasi_id',
     ];
 
-    //Relation to KelolaDonasi
-    // public function kelolaDonasi()
-    // {
-    //     return $this->belongsTo(KelolaDonasi::class);
-    // }
+    // ✅ Relasi ke KelolaDonasi
+    public function kelolaDonasi()
+    {
+        return $this->belongsTo(KelolaDonasi::class, 'kelola_donasi_id');
+    }
 
-    // Mutator untuk menghitung saldo secara otomatis
+    // Mutator untuk menghitung saldo otomatis
     public function setSaldoAttribute()
     {
-        $this->attributes['saldo'] = $this->attributes['uang_masuk'] - $this->attributes['uang_keluar'];
+        $uangMasuk = $this->getAttribute('uang_masuk') ?? 0;
+        $uangKeluar = $this->getAttribute('uang_keluar') ?? 0;
+
+        $this->attributes['saldo'] = $uangMasuk - $uangKeluar;
     }
 
     protected static function boot()

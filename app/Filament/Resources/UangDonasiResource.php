@@ -10,6 +10,9 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Exports\UangDonasiExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UangDonasiResource\Pages;
@@ -24,7 +27,6 @@ class UangDonasiResource extends Resource
     protected static ?string $pluralLabel = 'Uang Donasi';
     protected static ?string $navigationLabel = 'Uang Donasi';
 
-
     public static function getPluralModelLabel(): string
     {
         return 'Catatan Keuangan';
@@ -35,32 +37,48 @@ class UangDonasiResource extends Resource
         return 'Catatan';
     }
 
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama_donasi')
-                    ->label('Nama Donasi')
+                Select::make('kelola_donasi_id')
+                    ->label('Program Donasi')
+                    ->relationship(name: 'kelolaDonasi', titleAttribute: 'nama')
+                    ->required()
+                    ->searchable()
+                    ->live()
+                    
+                    ->afterStateUpdated(function (?string $state, callable $set) {
+                        if ($state) {
+                            $kelolaDonasi = \App\Models\KelolaDonasi::find($state);
+                            if ($kelolaDonasi) {
+                                $set('uang_masuk', $kelolaDonasi->donasi_terkumpul ?? 0);
+                                $set('nama_donasi', $kelolaDonasi->nama ?? '');
+                            }
+                        }
+                    }),
+
+                TextInput::make('nama_donasi')
+                    ->label('Jenis Pengeluaran / Nama Donasi')
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
 
-                Forms\Components\TextInput::make('uang_masuk')
-                    ->label('Uang Masuk')
-                    ->numeric()
-                    ->prefix('Rp')
-                    ->required()
-                    ->columnSpanFull(),
+                Hidden::make('uang_masuk')
+                    ->default(0)
+                    ->live()
+                    ->afterStateUpdated(fn($state, callable $set, $get) => $set('saldo', $state - $get('uang_keluar'))),
 
-                Forms\Components\TextInput::make('uang_keluar')
+                TextInput::make('uang_keluar')
                     ->label('Uang Keluar')
                     ->numeric()
                     ->prefix('Rp')
                     ->required()
+                    ->default(0)
+                    ->afterStateUpdated(fn($state, callable $set, $get) => $set('saldo', $get('uang_masuk') - $state))
                     ->columnSpanFull(),
 
-                Forms\Components\TextInput::make('saldo')
+                TextInput::make('saldo')
                     ->label('Sisa Saldo')
                     ->numeric()
                     ->prefix('Rp')
@@ -74,8 +92,13 @@ class UangDonasiResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('kelolaDonasi.nama')
+                    ->label('Program Donasi')
+                    ->sortable()
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('nama_donasi')
-                    ->label('Nama Donasi')
+                    ->label('Jenis Pengeluaran')
                     ->searchable()
                     ->sortable(),
 
@@ -101,14 +124,13 @@ class UangDonasiResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ])->label('Delete All'),
+                ])->label('Hapus Semua'),
             ])
             ->headerActions([
                 Tables\Actions\Action::make('export')
-                    ->label('Export to Excel')
+                    ->label('Export ke Excel')
                     ->icon('heroicon-o-folder-arrow-down')
                     ->color('success')
-                    ->extraAttributes(['style' => 'float: center; margin-right: 10px;'])
                     ->action(function () {
                         return response()->download(
                             Excel::download(new UangDonasiExport, 'uang_donasi.xlsx')->getFile(),
