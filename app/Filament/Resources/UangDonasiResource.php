@@ -53,19 +53,19 @@ class UangDonasiResource extends Resource
                             $kelolaDonasi = \App\Models\KelolaDonasi::find($state);
                             if ($kelolaDonasi) {
                                 $set('uang_masuk', $kelolaDonasi->donasi_terkumpul ?? 0);
-                                $set('nama_donasi', $kelolaDonasi->nama ?? '');
+                                // $set('nama_donasi', $kelolaDonasi->nama ?? '');
                             }
                         }
                     }),
 
                 TextInput::make('nama_donasi')
-                    ->label('Jenis Pengeluaran / Nama Donasi')
+                    ->label('Penerima Sumbangan')
                     ->required()
                     ->maxLength(255)
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->placeholder('Yayasan Dalit Mayaan'),
 
                 Hidden::make('uang_masuk')
-                    ->default(0)
                     ->live()
                     ->afterStateUpdated(fn($state, callable $set, $get) => $set('saldo', $state - $get('uang_keluar'))),
 
@@ -74,7 +74,6 @@ class UangDonasiResource extends Resource
                     ->numeric()
                     ->prefix('Rp')
                     ->required()
-                    ->default(0)
                     ->afterStateUpdated(fn($state, callable $set, $get) => $set('saldo', $get('uang_masuk') - $state))
                     ->columnSpanFull(),
 
@@ -98,7 +97,7 @@ class UangDonasiResource extends Resource
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('nama_donasi')
-                    ->label('Jenis Pengeluaran')
+                    ->label('Penerima Sumbangan')
                     ->searchable()
                     ->sortable(),
 
