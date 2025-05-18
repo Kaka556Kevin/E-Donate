@@ -34,13 +34,14 @@ class UangDonasiSeeder extends Seeder
             $uangMasuk = rand(50000, 5000000);
             $uangKeluar = rand(0, $uangMasuk);
             $saldo = $uangMasuk - $uangKeluar;
+            $kelolaDonasiId = $index < 8 ? 1 : 2;
 
             UangDonasi::create([
                 'nama_donasi' => "$namaYayasan",
                 'uang_masuk' => $uangMasuk,
                 'uang_keluar' => $uangKeluar,
                 'saldo' => $saldo,
-                'kelola_donasi_id' => 1,
+                'kelola_donasi_id' => $kelolaDonasiId,
             ]);
         }
     }
