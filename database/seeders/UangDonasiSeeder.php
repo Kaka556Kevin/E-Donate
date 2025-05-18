@@ -12,31 +12,31 @@ class UangDonasiSeeder extends Seeder
      */
     public function run(): void
     {
-        $perusahaan = [
-            'Astra International',
-            'Bank Mandiri',
-            'Pertamina',
-            'Telkom Indonesia',
-            'Unilever Indonesia',
-            'Sinar Mas',
-            'Indofood Sukses Makmur',
-            'Wahana Mitra Perkasa',
-            'Jasindo',
-            'Djarum Foundation',
-            'Sampoerna Foundation',
-            'Salim Group',
-            'Panin Bank',
-            'XL Axiata',
-            'Lippo Group'
+        $yayasan = [
+            'Yayasan Kemanusiaan Jakarta',
+            'Yayasan Peduli Sesama',
+            'Yayasan Anak Bangsa',
+            'Yayasan Cinta Kasih Indonesia',
+            'Yayasan Sahabat Yatim',
+            'Yayasan Pendidikan Nasional',
+            'Yayasan Bina Sehati',
+            'Yayasan Harapan Baru',
+            'Yayasan Cahaya Bangsa',
+            'Yayasan Lentera Hati',
+            'Yayasan Dana Sosial Rakyat',
+            'Yayasan Rumah Berbagi',
+            'Yayasan Mitra Kemanusiaan',
+            'Yayasan Bumi Sehat',
+            'Yayasan Senyum Indonesia'
         ];
 
-        foreach ($perusahaan as $index => $pt) {
+        foreach ($yayasan as $index => $namaYayasan) {
             $uangMasuk = rand(50000, 5000000);
             $uangKeluar = rand(0, $uangMasuk);
             $saldo = $uangMasuk - $uangKeluar;
 
             UangDonasi::create([
-                'nama_donasi' => "PT. $pt",
+                'nama_donasi' => "$namaYayasan",
                 'uang_masuk' => $uangMasuk,
                 'uang_keluar' => $uangKeluar,
                 'saldo' => $saldo,
