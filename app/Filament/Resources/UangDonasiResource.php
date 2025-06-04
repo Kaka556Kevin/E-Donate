@@ -98,7 +98,8 @@ class UangDonasiResource extends Resource
 
                 Tables\Columns\TextColumn::make('uang_masuk_formatted')
                     ->label('Uang Masuk')
-                    ->sortable(),
+                    // Beri tahu Filament untuk mengurutkan berdasarkan kolom 'uang_masuk' di database
+                    ->sortable(query: fn(Builder $query) => $query->orderBy('uang_masuk')),
 
                 Tables\Columns\TextColumn::make('nama_donasi')
                     ->label('Penerima Sumbangan')
@@ -107,11 +108,13 @@ class UangDonasiResource extends Resource
 
                 Tables\Columns\TextColumn::make('uang_keluar_formatted')
                     ->label('Uang Keluar')
-                    ->sortable(),
+                    // Beri tahu Filament untuk mengurutkan berdasarkan kolom 'uang_keluar' di database
+                    ->sortable(query: fn(Builder $query) => $query->orderBy('uang_keluar')),
 
                 Tables\Columns\TextColumn::make('saldo_formatted')
                     ->label('Sisa Saldo')
-                    ->sortable(),
+                    // Beri tahu Filament untuk mengurutkan berdasarkan kolom 'saldo' di database
+                    ->sortable(query: fn(Builder $query) => $query->orderBy('saldo')),
             ])
             ->filters([
                 //
