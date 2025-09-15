@@ -27,6 +27,8 @@ class AdministratorPanelProvider extends PanelProvider
             ->id('administrator')
             ->path('administrator')
             ->login()
+            ->brandLogo(asset('Logo.png'))
+            ->brandLogoHeight('3rem')
             ->brandName('E-Donate')
             ->colors([
                 'primary' => Color::Amber,
