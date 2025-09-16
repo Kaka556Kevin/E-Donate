@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->bigInteger('target_terkumpul');
             $table->bigInteger('donasi_terkumpul')->nullable();
+            $table->timestamp('tenggat_waktu_donasi')->nullable();
             $table->timestamps();
         });
     }

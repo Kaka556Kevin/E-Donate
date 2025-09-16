@@ -24,6 +24,7 @@ class KelolaDonasiController extends Controller
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'deskripsi' => 'required|string',
             'target_terkumpul' => 'required|numeric',
+            'tenggat_waktu_donasi' => 'required|date',
         ]);
 
         // Simpan gambar jika ada
@@ -54,6 +55,7 @@ class KelolaDonasiController extends Controller
             'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'deskripsi' => 'sometimes|required|string',
             'target_terkumpul' => 'sometimes|required|numeric',
+            'tenggat_waktu_donasi' => 'sometimes|required|date',
         ]);
 
         // Ambil data donasi berdasarkan ID

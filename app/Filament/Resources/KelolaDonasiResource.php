@@ -65,6 +65,11 @@ class KelolaDonasiResource extends Resource
                     // ->extraAttributes(['id' => 'target-terkumpul'])
                     ->prefix('Rp.')
                     ->columnSpanFull(),
+
+                Forms\Components\DatePicker::make('tenggat_waktu_donasi')
+                    ->label('Tenggat Waktu Donasi')
+                    ->required()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -80,6 +85,9 @@ class KelolaDonasiResource extends Resource
                 TextColumn::make('deskripsi'),
                 TextColumn::make('target_terkumpul_formatted')
                     ->label('Target Terkumpul'),
+                TextColumn::make('tenggat_waktu_donasi')
+                    ->label('Tenggat Waktu')
+                    ->date(),
             ])
             ->filters([
                 //

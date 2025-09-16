@@ -18,6 +18,7 @@ class KelolaDonasi extends Model
         'deskripsi',
         'target_terkumpul',
         'donasi_terkumpul',
+        'tenggat_waktu_donasi',
     ];
 
     /**
