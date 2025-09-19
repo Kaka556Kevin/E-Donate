@@ -16,36 +16,72 @@
             @csrf
             <input type="hidden" name="kelola_donasi_id" value="{{ $donasi->id }}">
 
+            {{-- Input Nominal dengan step 1000 --}}
             <div class="mb-3">
-                <input type="number" name="nominal" class="form-control" placeholder="Rp. Masukkan Nominal" required>
+                <input type="number" 
+                       name="nominal" 
+                       class="form-control" 
+                       placeholder="Rp. Masukkan Nominal (Minimal Rp.1000)" 
+                       step="1000" 
+                       required>
+                <small class="text-danger d-none" id="error-nominal-{{ $donasi->id }}">
+                    Minimal donasi Rp.1000
+                </small>
             </div>
 
+            {{-- Input Nama --}}
             <div class="mb-3">
                 <input type="text" name="nama" class="form-control" placeholder="Nama Lengkap" required>
             </div>
 
+            {{-- Input Kontak (Hanya angka & simbol -) --}}
             <div class="mb-3">
-                <input type="text" name="kontak" class="form-control" placeholder="No Whatsapp atau Handphone" required>
+                <input type="text" name="kontak" id="kontak-{{ $donasi->id }}" class="form-control" placeholder="No Whatsapp atau Handphone" required>
             </div>
 
+            {{-- Pesan/Doa --}}
             <div class="mb-3">
                 <textarea name="pesan" class="form-control" rows="3" placeholder="Tuliskan Pesan Atau Doa (Opsional)"></textarea>
             </div>
 
             <button type="submit" class="btn btn-success w-100">Donasi</button>
         </form>
+
+        {{-- Script Validasi --}}
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const forms = document.querySelectorAll('form[action="{{ route('form-donasi-submit') }}"]');
-                
-                forms.forEach(form => {
-                    form.addEventListener('submit', function (e) {
-                        const nominal = form.querySelector('input[name="nominal"]').value;
-                        if (parseInt(nominal) < 1000) {
-                            e.preventDefault();
-                            alert('Minimal nominal donasi adalah Rp1.000');
-                        }
-                    });
+                const nominalInput = document.querySelector('#popup-donasi-{{ $donasi->id }} input[name="nominal"]');
+                const errorText = document.getElementById('error-nominal-{{ $donasi->id }}');
+                const form = nominalInput.closest('form');
+                const kontakInput = document.getElementById('kontak-{{ $donasi->id }}');
+
+                // Validasi nominal realtime
+                nominalInput.addEventListener('input', function () {
+                    const nominal = parseInt(nominalInput.value);
+
+                    if (isNaN(nominal) || nominal < 1000) {
+                        errorText.classList.remove('d-none');
+                        nominalInput.classList.add('is-invalid');
+                    } else {
+                        errorText.classList.add('d-none');
+                        nominalInput.classList.remove('is-invalid');
+                    }
+                });
+
+                // Validasi nominal saat submit
+                form.addEventListener('submit', function (e) {
+                    const nominal = parseInt(nominalInput.value);
+
+                    if (isNaN(nominal) || nominal < 1000) {
+                        e.preventDefault();
+                        errorText.classList.remove('d-none');
+                        nominalInput.classList.add('is-invalid');
+                    }
+                });
+
+                // Validasi input kontak (hanya angka dan simbol -)
+                kontakInput.addEventListener('input', function () {
+                    this.value = this.value.replace(/[^0-9\-]/g, '');
                 });
             });
         </script>
