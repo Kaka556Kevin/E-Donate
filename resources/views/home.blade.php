@@ -19,12 +19,9 @@
                 </p>
 
                 <!-- Tombol Bagikan -->
-                <button onclick="copyLink()" class="btn btn-warning mt-2">
+                <button onclick="shareToWhatsApp()" class="btn btn-warning mt-2">
                     Bagikan Donasi Ini
                 </button>
-
-                <!-- Notifikasi -->
-                <small id="copyMessage" class="text-white d-none mt-1">Link berhasil disalin!</small>
             </div>
 
             <!-- Bagian Kanan: Carousel Donasi -->
@@ -37,18 +34,13 @@
                                 $target = $donation->target_terkumpul ?? 0;
                                 $persen = $target > 0 ? min(100, round(($terkumpul / $target) * 100)) : 0;
 
-                                // ----- perhitungan sisa waktu yang ROBUST (tidak menghasilkan desimal) -----
+                                // Hitung sisa waktu
                                 $sisaWaktuText = null;
                                 if ($donation->tenggat_waktu_donasi) {
                                     $now = \Carbon\Carbon::now();
                                     $tenggat = \Carbon\Carbon::parse($donation->tenggat_waktu_donasi);
-
-                                    // Selisih detik (bisa positif/negatif)
                                     $sisaSeconds = $tenggat->getTimestamp() - $now->getTimestamp();
-
-                                    // Hari (float) = detik / 86400, lalu dibulatkan ke bawah agar tanpa angka desimal
-                                    $sisaHariFloat = $sisaSeconds / 86400;
-                                    $sisaHari = (int) floor($sisaHariFloat);
+                                    $sisaHari = (int) floor($sisaSeconds / 86400);
 
                                     if ($sisaHari > 30) {
                                         $bulan = (int) floor($sisaHari / 30);
@@ -56,7 +48,6 @@
                                     } elseif ($sisaHari > 0) {
                                         $sisaWaktuText = $sisaHari . ' hari lagi';
                                     } elseif ($sisaHari === 0 && $sisaSeconds >= 0) {
-                                        // masih hari ini (kurang dari 24 jam tersisa)
                                         $sisaWaktuText = 'Hari terakhir donasi!';
                                     } else {
                                         $sisaWaktuText = 'Donasi sudah ditutup';
@@ -74,22 +65,18 @@
                                         <h5 class="fw-bold mt-2">{{ $donation->nama }}</h5>
                                         <p class="text-muted">{{ $donation->deskripsi }}</p>
 
-
                                         <!-- Progress Bar + Persentase -->
                                         <div class="progress position-relative mt-2" style="height: 15px; border-radius: 10px; overflow: hidden;">
-                                            <!-- Bar isi -->
                                             <div class="progress-bar bg-success" 
                                                 role="progressbar" 
                                                 style="width: {{ $persen }}%;" 
                                                 aria-valuenow="{{ $persen }}" aria-valuemin="0" aria-valuemax="100">
                                             </div>
-                                            <!-- Teks persentase di tengah -->
                                             <span class="position-absolute w-100 text-center" 
                                                 style="font-size: 12px; font-weight: bold; color: #000;">
                                                 {{ $persen }}%
                                             </span>
                                         </div>
-
 
                                         <!-- Info Terkumpul & Target -->
                                         <p class="mt-3 text-dark fw-semibold small">
@@ -99,7 +86,7 @@
                                             </span>
                                         </p>
 
-                                        <!-- Sisa Waktu (tanpa menampilkan tanggal) -->
+                                        <!-- Sisa Waktu -->
                                         @if ($sisaWaktuText)
                                             <p class="text-danger small fw-bold mt-2">
                                                 Sisa waktu: {{ $sisaWaktuText }}
@@ -109,7 +96,7 @@
                                         <!-- Tombol Donasi -->
                                         <button type="button" class="btn-donate" onclick="openPopup({{ $donation->id }})">
                                             Donasi Sekarang
-                                        </button>                                        
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -129,12 +116,21 @@
     </div>
 </div>
 
-
-
 <!-- Include Semua Pop-up Donasi -->
 @foreach ($donations as $donation)
     @include('components.popup-donasi', ['donasi' => $donation])
 @endforeach
+
+<!-- Notifikasi Donasi Baru -->
+@if(isset($latestDonation) && $latestDonation)
+    <div id="donation-toast" 
+        class="position-fixed bottom-0 start-0 mb-3 ms-3 bg-primary text-white px-3 py-2 rounded shadow-sm"
+        style="font-size: 14px; display:none; z-index:9999;">
+        {{ $latestDonation->nama }} baru saja berdonasi 
+        Rp{{ number_format($latestDonation->nominal, 0, ',', '.') }} 
+        untuk <strong>{{ $latestDonation->donasi->nama }}</strong>
+    </div>
+@endif
 @endsection
 
 @section('scripts')
@@ -162,15 +158,21 @@
         });
     }
 
-    function copyLink() {
-        const url = window.location.href;
-        navigator.clipboard.writeText(url).then(function() {
-            const msg = document.getElementById('copyMessage');
-            msg.classList.remove('d-none');
-            setTimeout(() => {
-                msg.classList.add('d-none');
-            }, 2000);
-        });
+    // Fungsi Bagikan ke WhatsApp
+    function shareToWhatsApp() {
+        const pesan = "Halo, yuk ikut berdonasi di E-Donate! Klik link berikut: https://flexible-iguana-violently.ngrok-free.app/";
+        const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(pesan);
+        window.open(waUrl, "_blank"); 
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+    let toast = document.getElementById("donation-toast");
+    if (toast) {
+        toast.style.display = "block"; // tampilkan
+        setTimeout(() => {
+            toast.style.display = "none"; // sembunyikan otomatis
+        }, 5000); // 10 detik
+    }
+});
 </script>
 @endsection
