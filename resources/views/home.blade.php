@@ -26,7 +26,11 @@
 
             <!-- Bagian Kanan: Carousel Donasi -->
             <div class="col-md-6 d-flex justify-content-center">
-                <div id="donationCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div id="donationCarousel" 
+                    class="carousel slide" 
+                    data-bs-ride="carousel" 
+                    data-bs-touch="false" 
+                    data-bs-interval="5000">
                     <div class="carousel-inner">
                         @foreach ($donations as $key => $donation)
                             @php
@@ -56,7 +60,16 @@
                             @endphp
 
                             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                <div class="donation-card mx-auto">
+                                <div class="donation-card mx-auto position-relative">
+
+                                    <!-- Ikon Info -->
+                                    <button type="button" 
+                                            class="btn btn-sm btn-light position-absolute top-0 end-0 m-2 rounded-circle shadow" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#infoModal{{ $donation->id }}">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
+
                                     <div class="donation-image">
                                         <img src="{{ asset('storage/' . $donation->gambar) }}" alt="{{ $donation->nama }}">
                                     </div>
@@ -100,6 +113,85 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Modal Info Donasi -->
+                            <div class="modal fade" id="infoModal{{ $donation->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content shadow-lg border-0 rounded-4 overflow-hidden">
+                                        
+                                        <!-- Header Modal -->
+                                        <div class="modal-header bg-success text-white">
+                                            <h5 class="modal-title fw-bold">
+                                                <i class="bi bi-info-circle me-2"></i> Detail Donasi: {{ $donation->nama }}
+                                            </h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <!-- Body Modal -->
+                                        <div class="modal-body p-4">
+                                            <div class="row g-4">
+                                                
+                                                <!-- Gambar Donasi -->
+                                                <div class="col-md-5">
+                                                    <img src="{{ asset('storage/' . $donation->gambar) }}" 
+                                                        alt="{{ $donation->nama }}" 
+                                                        class="img-fluid rounded-3 shadow-sm">
+                                                </div>
+
+                                                <!-- Deskripsi Donasi -->
+                                                <div class="col-md-7">
+                                                    <h4 class="fw-bold text-success">{{ $donation->nama }}</h4>
+                                                    <p class="text-muted" style="font-size: 15px;">
+                                                        {{ $donation->deskripsi }}
+                                                    </p>
+
+                                                    <!-- Progress Bar -->
+                                                    <div class="mb-3">
+                                                        <label class="fw-semibold small mb-1">Progress Donasi</label>
+                                                        <div class="progress position-relative" style="height: 18px; border-radius: 12px;">
+                                                            <div class="progress-bar bg-success fw-bold" 
+                                                                role="progressbar" 
+                                                                style="width: {{ $persen }}%;">
+                                                            </div>
+                                                            <span class="position-absolute w-100 text-center small fw-bold text-dark">
+                                                                {{ $persen }}%
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Informasi Terkumpul & Target -->
+                                                    <ul class="list-group list-group-flush small">
+                                                        <li class="list-group-item d-flex justify-content-between">
+                                                            <span class="fw-semibold">Target Donasi:</span> 
+                                                            <span>{{ $donation->target_terkumpul_formatted }}</span>
+                                                        </li>
+                                                        <li class="list-group-item d-flex justify-content-between">
+                                                            <span class="fw-semibold">Terkumpul:</span> 
+                                                            <span>Rp {{ number_format($terkumpul, 0, ',', '.') }}</span>
+                                                        </li>
+                                                        @if ($sisaWaktuText)
+                                                        <li class="list-group-item d-flex justify-content-between">
+                                                            <span class="fw-semibold">Sisa Waktu:</span> 
+                                                            <span class="text-danger fw-bold">{{ $sisaWaktuText }}</span>
+                                                        </li>
+                                                        @endif
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Footer Modal -->
+                                        <div class="modal-footer bg-light d-flex justify-content-between">
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                                <i class="bi bi-x-circle me-1"></i> Tutup
+                                            </button>
+                                            <button type="button" class="btn btn-success" onclick="openPopup({{ $donation->id }})">
+                                                <i class="bi bi-heart-fill me-1"></i> Donasi Sekarang
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </div>
 
@@ -134,6 +226,9 @@
 @endsection
 
 @section('scripts')
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 <script>
     function openPopup(id) {
         const popup = document.getElementById('popup-donasi-' + id);
@@ -166,13 +261,13 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-    let toast = document.getElementById("donation-toast");
-    if (toast) {
-        toast.style.display = "block"; // tampilkan
-        setTimeout(() => {
-            toast.style.display = "none"; // sembunyikan otomatis
-        }, 5000); // 10 detik
-    }
-});
+        let toast = document.getElementById("donation-toast");
+        if (toast) {
+            toast.style.display = "block"; 
+            setTimeout(() => {
+                toast.style.display = "none"; 
+            }, 5000);
+        }
+    });
 </script>
 @endsection

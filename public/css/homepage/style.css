@@ -166,6 +166,21 @@ html, body {
     padding: 10px;
 }
 
+/* Perkecil area sentuh panah carousel */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 50px;   /* hanya 50px dari sisi kiri/kanan */
+    height: 50px;  /* kotak kecil */
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-size: 70% 70%;
+}
+
 .popup-donasi {
     position: fixed;
     top: 0;
@@ -264,6 +279,20 @@ html, body {
     background-color: green;
 }
 
+/* ============ FOOTER COPYRIGHT KECIL ============ */
+.footer-copyright {
+        position: fixed;
+        right: 20px;
+        bottom: 10px; /* Bisa disesuaikan, misalnya 5px / 15px */
+        font-size: 14px;
+        color: #ccc;
+        font-family: Arial, sans-serif;
+    }
+
+    .footer-copyright .author {
+        color: #4CAF50; /* warna hijau agar matching dengan tema */
+        font-weight: bold;
+    }
 
 
 /* ============ RESPONSIVE ============ */
@@ -297,6 +326,18 @@ html, body {
         background: linear-gradient(to right, #000000, #007f00); /* gradasi hijau seperti homepage */
     }
 }
+
+/* Mobile (max 768px) -> pindah ke bawah halaman */
+    @media (max-width: 768px) {
+        .footer-copyright {
+            position: relative;  /* tidak fixed */
+            text-align: center;
+            margin-top: 30px;    /* jarak dengan card donasi */
+            bottom: auto;
+            right: auto;
+        }
+    }
+    
 
 
 

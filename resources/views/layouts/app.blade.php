@@ -33,5 +33,12 @@
 
     <!-- Script Tambahan -->
     @yield('scripts')
+
+    <!-- Footer kecil pojok kanan bawah -->
+    <div class="footer-copyright">
+        &copy; {{ date('Y') }} E-Donate | Yassin, Hadid, Raden
+    </div>
+
+
 </body>
 </html>
