@@ -255,7 +255,8 @@
 
     // Fungsi Bagikan ke WhatsApp
     function shareToWhatsApp() {
-        const pesan = "Halo, yuk ikut berdonasi di E-Donate! Klik link berikut: https://flexible-iguana-violently.ngrok-free.app/";
+        const url = window.location.href; 
+        const pesan = "Halo, yuk ikut berdonasi di E-Donate! Klik link berikut:  https://dalitmayaan.com/";
         const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(pesan);
         window.open(waUrl, "_blank"); 
     }
